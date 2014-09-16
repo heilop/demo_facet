@@ -1,0 +1,5 @@
+name = Demo Facets
+description = Custom facets for search api (demo).
+core = 7.x
+package = DEMO
+dependencies[] = facetapi

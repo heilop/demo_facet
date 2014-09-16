@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * @file
+ * Module example for create custom facets.
+ */
+
+/**
+ * Implements hook_entity_property_info().
+ */
+function demo_facets_entity_property_info() {
+  $info = array();
+  // Declare new property for node type "RESOURCE".
+  $info['node']['bundles']['resource']['properties']['demo_facets_price'] = array(
+    'type' => 'text',
+    'label' => t('DEMO FACETS: Price range'),
+    'sanitized' => TRUE,
+    'getter callback' => 'demo_facets_price_getter_callback',
+  );
+  return $info;
+}
+
+/**
+ * Callback for demo facet.
+ */
+function demo_facets_price_getter_callback($data, array $options, $name, $type, $info) {
+  // Get data for field "PRECIO".
+  $price = field_get_items('node', $data, 'field_precio');
+  // Create ranges id data exist.
+  if (isset($price[0]['value'])) {
+    $price = $price[0]['value'];
+    // Validate ranges for this facet.
+    if ($price <= 20) {
+      $facet_item = t('Less than 20');
+    }
+    elseif ($price > 20 && $price <= 40 ) {
+      $facet_item = t('From 20 to 40');
+    }
+    elseif ($price > 40 && $price <= 60 ) {
+      $facet_item = t('From 40 to 60');
+    }
+    elseif ($price > 60 && $price <= 80 ) {
+      $facet_item = t('From 60 to 80');
+    }
+    elseif ($price > 80 && $price <= 100 ) {
+      $facet_item = t('From 80 to 100');
+    }
+    elseif ($price > 100 && $price <= 150 ) {
+      $facet_item = t('From 100 to 150');
+    }
+    elseif ($price > 150 && $price <= 200 ) {
+      $facet_item = t('From 150 to 200');
+    }
+    elseif ($price > 200 ) {
+      $facet_item = t('Greater than 200');
+    }
+  }
+  return $facet_item;
+}
